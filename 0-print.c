@@ -12,23 +12,16 @@ int _printf(const char *format, ...)
 {
     int count = 0;
     va_list my_list;
-
-    /* Initialize the argument list */
     va_start(my_list, format);
-
-
-    /* Loop through the format string and handle each specifier */
     while (*format)
     {
         char c;
         char *str;
         int num;
-        
          if (*format == '%' && *(format + 1)){
             format++;
             switch (*format)
             {
-        
             case 'c':
                 { 
                 c = va_arg(my_list, int);
@@ -36,7 +29,6 @@ int _printf(const char *format, ...)
                 count++;
                 }
                 break;
-        
             case 's':
                 {  
                 int i;
@@ -46,11 +38,9 @@ int _printf(const char *format, ...)
                     {
                         count += pchar(str[i]);
                         i++;
-                    
                     }
                 break;
                 }
-            
             case 'd':
             case 'i':
                 {
@@ -74,9 +64,8 @@ int _printf(const char *format, ...)
                 break;
             }
         }
-        else{
+        else
             count += pchar(*format);
-        }
         format++;
     }
     va_end(my_list);
