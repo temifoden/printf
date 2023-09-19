@@ -10,44 +10,53 @@
 
 int _printf(const char *format, ...)
 {
-    int count;
+    int count = 0;
     va_list my_list;
+
+    /* Initialize the argument list */
     va_start(my_list, format);
-    
-    for (count = 0; *format; count++)
+
+
+    /* Loop through the format string and handle each specifier */
+    while (*format)
     {
-        char c;
-        char *str;
+        // char c;
+        // char *str;
         
-        if (*format == '%'){
+         if (*format == '%' && *(format + 1)){
             format++;
             switch (*format)
             {
+            /* Handle 'c' specifier */
             case 'c':
-                c = va_arg(my_list, int);
+                { 
+                char c = va_arg(my_list, int);
                 pchar(c);
                 count++;
-                break;
-            case 's':
-                str = va_arg(my_list, char*);
-                while (*str)
-                {
-                    pchar(*str);
-                    str++;
-                    count++;
                 }
                 break;
+            /* Handle 's' specifier */
+            case 's':
+                {  
+                char *str  = va_arg(my_list, char *);
+                int i = 0;
+                while (str[i])
+                    {
+                        pchar(str[i]);
+                        str++;
+                        count++;
+                    }
+                }
+                break;
+            /* Handle 'd' and 'i' specifiers */
             case 'd':
-                c = va_arg(my_list, int);
-                if (c < 10){
-                    pchar(c);
-                    count++;
-                } else if(c >= 10){
-                    pchar(c / 10);
-                    count++;
-                    pchar(c % 10);
-                    count++;
-                }            
+            case 'i':
+              
+                {
+                    int num = va_arg(my_list, int); 
+                    printf("%d", num);
+                    count += count_digits(num);
+                }
                 break;
             case '%':
                 pchar('%');
@@ -55,9 +64,8 @@ int _printf(const char *format, ...)
                 break;
             default:
                 pchar('%');
-                count++;
                 pchar(*format);
-                count++;
+                count=+2;
                 break;
             }
         }
@@ -70,3 +78,22 @@ int _printf(const char *format, ...)
     va_end(my_list);
     return (count);
 }
+
+int count_digits(int num)
+{
+    int count = 0;
+    if (num == 0)
+    {
+        return 1; 
+    }
+    while (num != 0)
+    {
+        num /= 10;
+        count++;
+    }
+    return count;
+}
+
+
+
+
