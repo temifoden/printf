@@ -1,53 +1,55 @@
-#include "main.h"
-#include <stdarg.h>
-
+#include "header/main.h"
+#include <stdio.h>
 /**
  * _printf - function entry
  * @format: first parameter
  *
  * Return: an integer value
-*/
+ */
 
 int _printf(const char *format, ...)
 {
-    int count = 0;
+    int count;
     va_list my_list;
     va_start(my_list, format);
+
+    count = 0;
     while (*format)
     {
         char c;
         char *str;
         int num;
-         if (*format == '%' && *(format + 1)){
+        if (*format == '%' && *(format + 1))
+        {
             format++;
             switch (*format)
             {
             case 'c':
-                { 
+            {
                 c = va_arg(my_list, int);
                 pchar(c);
                 count++;
-                }
-                break;
+            }
+            break;
             case 's':
-                {  
+            {
                 int i;
-                str  = va_arg(my_list, char *);
+                str = va_arg(my_list, char *);
                 i = 0;
                 while (str[i])
-                    {
-                        count += pchar(str[i]);
-                        i++;
-                    }
-                break;
+                {
+                    count += pchar(str[i]);
+                    i++;
                 }
+                break;
+            }
             case 'd':
             case 'i':
-                {
-                    num = va_arg(my_list, int);
-                    count += count_and_print_digits(num);
-                    break;
-                }
+            {
+                num = va_arg(my_list, int);
+                count += count_and_print_digits(num);
+                break;
+            }
             case 'b':
             {
                 num = va_arg(my_list, int);
@@ -65,7 +67,9 @@ int _printf(const char *format, ...)
             }
         }
         else
-            count += pchar(*format);
+        { 
+        count += pchar(*format);  
+        }
         format++;
     }
     va_end(my_list);
