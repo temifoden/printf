@@ -7,29 +7,31 @@
  * Return: count
 */
 
+
 int count_and_print_digits(int num)
 {
-    int count;
+    int count = 0;
     int rem;
-    count = 0;
-    
-    if (num < 0){
+
+    if (num < 0)
+    {
         pchar('-');
         count++;
         num = -num;
     }
+
     if (num < 10)
     {
-        pchar('0'+ num);
+        pchar('0' + num);
         count++;
     }
     else
-    {        
-            num /= 10;
-            rem = num % 10;
-            count_and_print_digits(num);
-            pchar('0' + rem);
-            count++;
+    {
+        rem = num % 10;
+        count += count_and_print_digits(num / 10); 
+        pchar('0' + rem);
+        count++;
     }
+
     return count;
 }
