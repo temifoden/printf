@@ -58,6 +58,12 @@ int _printf(const char *format, ...)
                     count += count_and_print_digits(num);
                     break;
                 }
+            case 'b':
+            {
+                num = va_arg(my_list, int);
+                count += print_binary(num);
+                break;
+            }
             case '%':
                 count += pchar('%');
                 break;
